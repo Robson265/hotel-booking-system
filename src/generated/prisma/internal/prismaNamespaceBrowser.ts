@@ -17,8 +17,8 @@
 
 import * as runtime from "@prisma/client/runtime/index-browser"
 
-export type * from '../models.js'
-export type * from './prismaNamespace.js'
+export type * from '../models'
+export type * from './prismaNamespace'
 
 export const Decimal = runtime.Decimal
 
@@ -52,9 +52,10 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  RefreshToken: 'RefreshToken',
   Room: 'Room',
   Booking: 'Booking',
-  payment: 'payment'
+  Payment: 'Payment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -74,22 +75,38 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 
 export const UserScalarFieldEnum = {
-  userId: 'userId',
+  id: 'id',
   email: 'email',
-  userName: 'userName',
+  firstName: 'firstName',
+  lastName: 'lastName',
   password: 'password',
-  phone: 'phone',
+  phoneNumber: 'phoneNumber',
+  role: 'role',
+  isEmailVerified: 'isEmailVerified',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const RefreshTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  userId: 'userId'
+} as const
+
+export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
+
+
 export const RoomScalarFieldEnum = {
-  roomId: 'roomId',
+  id: 'id',
   roomType: 'roomType',
   price: 'price',
   maxGuests: 'maxGuests',
+  floor: 'floor',
+  isAvailable: 'isAvailable',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -98,16 +115,17 @@ export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof Room
 
 
 export const BookingScalarFieldEnum = {
-  bookingId: 'bookingId',
+  id: 'id',
   guestId: 'guestId',
-  roomid: 'roomid',
-  staffid: 'staffid',
+  staffId: 'staffId',
   checkIn: 'checkIn',
   checkOut: 'checkOut',
   numGuests: 'numGuests',
   totalAmount: 'totalAmount',
   status: 'status',
   PaymentStatus: 'PaymentStatus',
+  userId: 'userId',
+  roomId: 'roomId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -116,11 +134,12 @@ export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeo
 
 
 export const PaymentScalarFieldEnum = {
-  paymentId: 'paymentId',
-  bookingId: 'bookingId',
+  id: 'id',
   amount: 'amount',
   method: 'method',
   paidAt: 'paidAt',
+  bookingId: 'bookingId',
+  userId: 'userId',
   createdAt: 'createdAt'
 } as const
 

@@ -48,50 +48,72 @@ enum PaymentMethod{
 //MODELS
 
 model User {
-  Id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   email     String   @unique
-  userName      String
+  firstName     String
+  lastName      String
   password   String
-  phone      String
+  phoneNumber      String
+  role   Role  @default(GUEST)
+  isEmailVerified  Boolean  @default(false)
 
+  // refreshToken RefreshToken[]
   room  Room? // one-to-one
+  booking Booking[] //one to many
+  payment Payment[]
+  expiresAt DateTime @default(now())
   createdAt DateTime @default(now())
+}
 
-  
+model RefreshToken{
+  id     String  @id @default(uuid())
+  token  String   @unique
+  userId String
+  // user User @relation(fields: [userId], references: [id])
 }
 
 model Room {
-  Id       Int  @id @default(autoincrement())
-  roomType Int @unique //single, double, suite
+  id       String  @id @default(uuid())
+  roomType String @unique //single, double, suite
   price    Decimal  @db.Decimal(10,2)
   maxGuests  Int
-  userId   Int @unique
-  user User @relation(fields: [userId], references: [Id]) // one-to-one
+  floor  Int
+  isAvailable  Boolean  @default(true)
+  userId   String @unique
+  user User @relation(fields: [userId], references: [id]) // one-to-one
+  booking Booking?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Booking{
-  Id     Int  @id @default(autoincrement())
-  guestId     Int
-  roomid      Int
-  staffid     Int?
+  id     String  @id @default(uuid())
+  guestId     String
+  staffId     String?
   checkIn   DateTime
   checkOut  DateTime
   numGuests  Int
   totalAmount  Decimal @db.Decimal(10,2)
   status  BookingStatus  @default(PENDING)
   PaymentStatus  PaymentStatus @default(UNPAID)
+  userId  String
+  user User @relation(fields: [userId], references: [id]) //one to many(one user can make multiple booking)
+  roomId String @unique
+  room Room @relation(fields: [roomId], references: [id])
+  payment Payment[]
   createdAt DateTime @default(now())
   updatedAt DateTime  @updatedAt
 }
 
-model payment{
-  Id  Int @id @default(autoincrement())
-  bookingId  Int
+model Payment{
+  id  String @id @default(uuid())
   amount  Decimal  @db.Decimal(10,2)
   method  PaymentMethod
   paidAt  DateTime  @default(now())
+  bookingId String
+  booking Booking @relation(fields: [bookingId], references: [id])
+  userId  String
+  user User @relation(fields: [userId], references: [id])
   createdAt  DateTime  @default(now())
 }
 

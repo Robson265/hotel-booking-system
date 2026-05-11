@@ -1,15 +1,20 @@
 import { IsNotEmpty, IsString } from "class-validator";
 
 
-export class UpdateUserDto{
+export class ForgotPasswordDto{
 
+    @IsNotEmpty()
+    @IsString()
+    email!: string;
+        
     @IsNotEmpty()
     @IsString()
     firstName!: string;
 
     @IsNotEmpty()
     @IsString()
-    lastname!: string;
-    
-    
+    lastName!: string;
+
+
+
 }
