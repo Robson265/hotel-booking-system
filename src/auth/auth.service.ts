@@ -92,23 +92,23 @@ export class AuthService {
     return { accessToken, refreshToken: rawRefresh };
 }
 
-    async refreshTokens(rawToken: string){
-        const stored = await this.prisma.refreshToken.findUnique({
-            where: {token: rawToken},
-            include: {user: true},
-        });
+    // async refreshTokens(rawToken: string){
+    //     const stored = await this.prisma.refreshToken.findUnique({
+    //         where: {token: rawToken},
+    //         include: {user: true},
+    //     });
 
-        if(!stored || stored.user.expiresAt< new Date()){
-            throw new UnauthorizedException('Invalid or expired refresh token');
-        }
+    //     if(!stored || stored.user.expiresAt< new Date()){
+    //         throw new UnauthorizedException('Invalid or expired refresh token');
+    //     }
 
-        //delete old and issue new
-        await this.prisma.refreshToken.delete({
-            where:{token: rawToken}
-        });
+    //     //delete old and issue new
+    //     await this.prisma.refreshToken.delete({
+    //         where:{token: rawToken}
+    //     });
 
-        return this.issueTokens(stored.userId, stored.user.email, stored.user.role);
-    }
+    //     return this.issueTokens(stored.userId, stored.user.email, stored.user.role);
+    // }
 
     //Email verification
     async sendVerificationEmail(userId: string, email: string){

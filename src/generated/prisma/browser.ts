@@ -23,6 +23,16 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
+ * Model Profile
+ * 
+ */
+export type Profile = Prisma.ProfileModel
+/**
+ * Model Hotel
+ * 
+ */
+export type Hotel = Prisma.HotelModel
+/**
  * Model RefreshToken
  * 
  */
@@ -42,3 +52,8 @@ export type Booking = Prisma.BookingModel
  * 
  */
 export type Payment = Prisma.PaymentModel
+/**
+ * Model Review
+ * 
+ */
+export type Review = Prisma.ReviewModel

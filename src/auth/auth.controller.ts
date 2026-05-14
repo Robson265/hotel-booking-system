@@ -20,10 +20,10 @@ export class AuthController {
         return this.authService.login(loginUserDto)
     }
 
-    @Post("/refresh")
-    refresh(@Body('refreshToken')token: string){
-        return this.authService.refreshTokens(token)
-    }
+    // @Post("/refresh")
+    // refresh(@Body('refreshToken')token: string){
+    //     return this.authService.refreshTokens(token)
+    // }
   
     @Post("/logout")
     logout(){}
@@ -40,11 +40,8 @@ export class AuthController {
     @Post("/reset-password")
     resetPassword(){}
 
-    @Get("/users/me")
-    findUser(){}
 
-    @Patch("/users/me")
-    updateProfile(){}
+
 
     @Patch("/users/me/password")
     changePassword(){}

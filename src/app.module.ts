@@ -7,11 +7,19 @@ import { PaymentModule } from './payment/payment.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { AppService } from './app.service';
 import { PrismaModule } from 'src/config/prisma.module';
+import { HotelModule } from './hotel/hotel.module';
+import { ReviewService } from './review/review.service';
+import { ReviewController } from './review/review.controller';
+import { ReviewModule } from './review/review.module';
+import { CancellationModule } from './cancellation/cancellation.module';
+import { UploadService } from './upload/upload.service';
+import { CloudinaryService } from './cloudinary/cloudinary.service';
+import { UploadController } from './upload/upload.controller';
 
 
 @Module({
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, ReviewController, UploadController],
+  providers: [AppService, ReviewService, UploadService, CloudinaryService],
 
     imports: [
     PrismaModule,
@@ -19,7 +27,7 @@ import { PrismaModule } from 'src/config/prisma.module';
     AuthModule, 
     BookingModule, 
     PaymentModule, 
-    RoomsModule
+    RoomsModule, HotelModule, ReviewModule, CancellationModule
   ],
 
 })

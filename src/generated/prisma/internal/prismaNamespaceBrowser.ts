@@ -52,10 +52,13 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  Profile: 'Profile',
+  Hotel: 'Hotel',
   RefreshToken: 'RefreshToken',
   Room: 'Room',
   Booking: 'Booking',
-  Payment: 'Payment'
+  Payment: 'Payment',
+  Review: 'Review'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -90,6 +93,41 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const ProfileScalarFieldEnum = {
+  id: 'id',
+  bio: 'bio',
+  avatarUrl: 'avatarUrl',
+  avatarKey: 'avatarKey',
+  userId: 'userId'
+} as const
+
+export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
+
+
+export const HotelScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  address: 'address',
+  city: 'city',
+  state: 'state',
+  country: 'country',
+  rating: 'rating',
+  amenities: 'amenities',
+  isApproved: 'isApproved',
+  isActive: 'isActive',
+  checkInTime: 'checkInTime',
+  checkOutTime: 'checkOutTime',
+  longitude: 'longitude',
+  latitude: 'latitude',
+  adminId: 'adminId',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type HotelScalarFieldEnum = (typeof HotelScalarFieldEnum)[keyof typeof HotelScalarFieldEnum]
+
+
 export const RefreshTokenScalarFieldEnum = {
   id: 'id',
   token: 'token',
@@ -106,7 +144,7 @@ export const RoomScalarFieldEnum = {
   maxGuests: 'maxGuests',
   floor: 'floor',
   isAvailable: 'isAvailable',
-  userId: 'userId',
+  hotelId: 'hotelId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -116,8 +154,6 @@ export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof Room
 
 export const BookingScalarFieldEnum = {
   id: 'id',
-  guestId: 'guestId',
-  staffId: 'staffId',
   checkIn: 'checkIn',
   checkOut: 'checkOut',
   numGuests: 'numGuests',
@@ -126,6 +162,7 @@ export const BookingScalarFieldEnum = {
   PaymentStatus: 'PaymentStatus',
   userId: 'userId',
   roomId: 'roomId',
+  hotelId: 'hotelId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -137,13 +174,33 @@ export const PaymentScalarFieldEnum = {
   id: 'id',
   amount: 'amount',
   method: 'method',
+  currency: 'currency',
   paidAt: 'paidAt',
+  expiresAt: 'expiresAt',
+  status: 'status',
   bookingId: 'bookingId',
   userId: 'userId',
   createdAt: 'createdAt'
 } as const
 
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const ReviewScalarFieldEnum = {
+  id: 'id',
+  rating: 'rating',
+  comment: 'comment',
+  cleanlinessRating: 'cleanlinessRating',
+  serviceRating: 'serviceRating',
+  paidAt: 'paidAt',
+  userId: 'userId',
+  bookingId: 'bookingId',
+  hotelId: 'hotelId',
+  isApproved: 'isApproved',
+  createdAt: 'createdAt'
+} as const
+
+export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
 
 
 export const SortOrder = {

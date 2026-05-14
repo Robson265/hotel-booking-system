@@ -41,7 +41,9 @@ export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
 export const PaymentStatus = {
   UNPAID: 'UNPAID',
   PAID: 'PAID',
-  REFUNDED: 'REFUNDED'
+  REFUNDED: 'REFUNDED',
+  PENDING: 'PENDING',
+  FAILED: 'FAILED'
 } as const
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
@@ -54,3 +56,13 @@ export const PaymentMethod = {
 } as const
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+
+export const Currency = {
+  USD: 'USD',
+  NGN: 'NGN',
+  GBP: 'GBP',
+  EUR: 'EUR'
+} as const
+
+export type Currency = (typeof Currency)[keyof typeof Currency]

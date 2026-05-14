@@ -37,12 +37,21 @@ enum PaymentStatus{
   UNPAID
   PAID
   REFUNDED
+  PENDING
+  FAILED
 }
 
 enum PaymentMethod{
   CASH
   CARD
   TRANSFER
+}
+
+enum Currency{
+  USD
+  NGN
+  GBP
+  EUR
 }
 
 //MODELS
@@ -58,9 +67,47 @@ model User {
   isEmailVerified  Boolean  @default(false)
 
   // refreshToken RefreshToken[]
-  room  Room? // one-to-one
-  booking Booking[] //one to many
-  payment Payment[]
+  profile  Profile?
+  hotel Hotel[]
+  booking Booking[] //multiple booking
+  payment Payment[] //multiple payment
+  review Review[] //many review
+  expiresAt DateTime @default(now())
+  createdAt DateTime @default(now())
+}
+
+model Profile {
+  id    String    @id  @default(uuid())
+  bio    String?
+  avatarUrl   String?
+  avatarKey   String?
+
+  userId   String  @unique
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)  
+
+}
+
+model Hotel {
+  id        String      @id @default(uuid())
+  name     String   @unique
+  description     String
+  address      String
+  city   String
+  state      String
+  country     String
+  rating  Int 
+  amenities  String
+  isApproved   Boolean
+  isActive     Boolean
+  checkInTime  DateTime @default(now())
+  checkOutTime  DateTime @default(now())
+  longitude   Decimal @db.Decimal(9,2)
+  latitude   Decimal  @db.Decimal(9,2)
+  review Review[] //many review
+  booking Booking[]
+  room Room[]
+  adminId  String
+  admin  User @relation(fields: [adminId], references: [id])
   expiresAt DateTime @default(now())
   createdAt DateTime @default(now())
 }
@@ -75,41 +122,45 @@ model RefreshToken{
 model Room {
   id       String  @id @default(uuid())
   roomType String @unique //single, double, suite
-  price    Decimal  @db.Decimal(10,2)
+  price    Float
   maxGuests  Int
   floor  Int
   isAvailable  Boolean  @default(true)
-  userId   String @unique
-  user User @relation(fields: [userId], references: [id]) // one-to-one
-  booking Booking?
+  booking Booking[]
+  hotelId  String
+  hotel Hotel @relation(fields: [hotelId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Booking{
   id     String  @id @default(uuid())
-  guestId     String
-  staffId     String?
   checkIn   DateTime
   checkOut  DateTime
   numGuests  Int
-  totalAmount  Decimal @db.Decimal(10,2)
+  totalAmount  Float
   status  BookingStatus  @default(PENDING)
   PaymentStatus  PaymentStatus @default(UNPAID)
   userId  String
   user User @relation(fields: [userId], references: [id]) //one to many(one user can make multiple booking)
-  roomId String @unique
+  roomId String
   room Room @relation(fields: [roomId], references: [id])
-  payment Payment[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime  @updatedAt
+  hotelId  String
+  hotel     Hotel  @relation(fields: [hotelId], references: [id])
+  payment   Payment[]
+  review    Review?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model Payment{
   id  String @id @default(uuid())
   amount  Decimal  @db.Decimal(10,2)
   method  PaymentMethod
+  currency  Currency  @default(NGN)
   paidAt  DateTime  @default(now())
+  expiresAt   DateTime  @default(now())
+  status  PaymentStatus  @default(UNPAID)
   bookingId String
   booking Booking @relation(fields: [bookingId], references: [id])
   userId  String
@@ -117,6 +168,28 @@ model Payment{
   createdAt  DateTime  @default(now())
 }
 
+
+model Review{
+  id  String @id @default(uuid())
+  rating   String
+  comment  String
+  cleanlinessRating  String
+  serviceRating   String
+  paidAt  DateTime  @default(now())
+
+  userId  String //many review per user
+  user User @relation(fields: [userId], references: [id])
+
+  bookingId  String @unique
+  booking Booking @relation(fields: [bookingId], references: [id])
+
+  hotelId  String
+  hotel Hotel  @relation(fields: [hotelId], references: [id])
+
+
+  isApproved  Boolean  @default(false)
+  createdAt  DateTime  @default(now())
+}
 
 
 
